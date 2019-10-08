@@ -1,4 +1,3 @@
-import sys
 import random
 N = int(input("Enter Number of players: "))
 class dice(object):
