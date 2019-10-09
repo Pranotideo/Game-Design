@@ -13,32 +13,32 @@ def get_user_input():
         sys.exit()
     return w
 
-def match_words(w1, w2):
+def match_words(random_word, user_guess):
     """implementation to be done here"""
-    j = 0
-    while j <= 10:
-        if w1 == w2:
+    game_counter = 0
+    while game_counter <= 10:
+        if random_word == user_guess:
             print("correct")
             break
-        elif j == 10:
-            print "Random word: %s" % w1
-            print "User's guess: %s" % w2
+        elif game_counter == 10:
+            print "Random word: %s" % random_word
+            print "User's guess: %s" % user_guess
             break
         else:
-            G = 0
-            B = 0
-            for i in range(len(w1)):
-                if w1[i] == w2[i]:
-                    G += 1
-                elif w1[i] in w2:
-                    B += 1
-            print("Good Match: %s" % G)
-            print("Bad Match: %s" % B)
-        w2 = raw_input ("Improve your guess: ")
-        if len(w2) != 4:
+            good_match = 0
+            bad_match = 0
+            for i in range(len(random_word)):
+                if random_word[i] == user_guess[i]:
+                    good_match += 1
+                elif random_word[i] in user_guess:
+                    bad_match += 1
+            print("Good Match: %s" % good_match)
+            print("Bad Match: %s" % bad_match)
+        user_guess = raw_input ("Improve your guess: ")
+        if len(user_guess) != 4:
             print "You must enter a word that is 4 letters long"
             continue
-        j += 1
+        game_counter += 1
 
 if __name__ == "__main__":
     word = get_random_word()
