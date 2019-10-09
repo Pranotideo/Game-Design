@@ -5,18 +5,15 @@ def get_random_word():
     word_dict = ["dear", "near", "neat", "feat"]
     return word_dict[random.randint(0, len(word_dict)-1)]
 
-def get_user_input():
-    w = raw_input ("Enter your guess: ")
-    if len(w) != 4:
-        print "You must enter a word that is 4 letters long"
-        import sys
-        sys.exit()
-    return w
-
-def match_words(random_word, user_guess):
+def play_game(random_word):
     """implementation to be done here"""
+    # take input here
+    # use a do-while like condition to resume the game
     game_counter = 0
     while game_counter <= 10:
+        if len(user_guess) != 4:
+            print "Error. Please enter only 4 lettered words"
+
         if random_word == user_guess:
             print("correct")
             break
@@ -42,5 +39,4 @@ def match_words(random_word, user_guess):
 
 if __name__ == "__main__":
     word = get_random_word()
-    user = get_user_input()
-    match_words(word, user)
+    play_game(word)
