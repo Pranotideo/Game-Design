@@ -15,15 +15,13 @@ def get_user_input():
 
 def match_words(w1, w2):
     """implementation to be done here"""
-    print "Random word: %s" % w1
-    print "User's guess: %s" % w2
     G = 0
     B = 0
 
     if w1 == w2:
         print("correct")
     else:
-        for i in range(len(word)):
+        for i in range(len(w1)):
             if w1[i] == w2[i]:
                 G += 1
             elif w1[i] in w2:
