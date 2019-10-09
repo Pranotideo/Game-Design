@@ -15,29 +15,32 @@ def get_user_input():
 
 def match_words(w1, w2):
     """implementation to be done here"""
-    G = 0
-    B = 0
-
-    if w1 == w2:
-        print("correct")
-    else:
-        for i in range(len(w1)):
-            if w1[i] == w2[i]:
-                G += 1
-            elif w1[i] in w2:
-                B += 1
-            elif G == 0 and B == 0:
-                print("Good Match: %s" % G)
-                print("Bad Match: %s" % B)
-                w2 = raw_input ("Improve your guess: ")
-
-    print("Good Match: %s" % G)
-    print("Bad Match: %s" % B)
-
-
+    j = 0
+    while j <= 10:
+        if w1 == w2:
+            print("correct")
+            break
+        elif j == 10:
+            print "Random word: %s" % w1
+            print "User's guess: %s" % w2
+            break
+        else:
+            G = 0
+            B = 0
+            for i in range(len(w1)):
+                if w1[i] == w2[i]:
+                    G += 1
+                elif w1[i] in w2:
+                    B += 1
+            print("Good Match: %s" % G)
+            print("Bad Match: %s" % B)
+        w2 = raw_input ("Improve your guess: ")
+        if len(w2) != 4:
+            print "You must enter a word that is 4 letters long"
+            continue
+        j += 1
 
 if __name__ == "__main__":
-    for j in range(10):
-        word = get_random_word()
-        user = get_user_input()
-        match_words(word, user)
+    word = get_random_word()
+    user = get_user_input()
+    match_words(word, user)
