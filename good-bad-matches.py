@@ -10,13 +10,8 @@ def play_game(random_word):
     # take input here
     # use a do-while like condition to resume the game
     user_guess = raw_input ("Enter your guess: ")
-    if len(user_guess) != 4:
-        print "You must enter a word that is 4 letters long"
     game_counter = 1
     while game_counter <= 10 and len(user_guess) == 4:
-        if len(user_guess) != 4:
-            print "Error. Please enter only 4 lettered words"
-
         if random_word == user_guess:
             print("correct")
             break
@@ -35,10 +30,10 @@ def play_game(random_word):
             print("Good Match: %s" % good_match)
             print("Bad Match: %s" % bad_match)
         user_guess = raw_input ("Improve your guess: ")
-        if len(user_guess) != 4:
-            print "You must enter a word that is 4 letters long"
-            continue
         game_counter += 1
+
+    if len(user_guess) != 4:
+        print "You must enter a word that is 4 letters long"
 
 if __name__ == "__main__":
     word = get_random_word()
