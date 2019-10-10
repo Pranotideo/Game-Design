@@ -9,8 +9,11 @@ def play_game(random_word):
     """implementation to be done here"""
     # take input here
     # use a do-while like condition to resume the game
-    game_counter = 0
-    while game_counter <= 10:
+    user_guess = raw_input ("Enter your guess: ")
+    if len(user_guess) != 4:
+        print "You must enter a word that is 4 letters long"
+    game_counter = 1
+    while game_counter <= 10 and len(user_guess) == 4:
         if len(user_guess) != 4:
             print "Error. Please enter only 4 lettered words"
 
