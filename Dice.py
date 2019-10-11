@@ -2,9 +2,11 @@ import random
 N = int(input("Enter Number of players: "))
 class Dice:
 
-    def __init__():
-        Dice.Roll()
-        Dice.Pass()
+    def __init__(self):
+        self.Roll()
+        self.Exit()
+        self.Pass()
+
     def Roll(self):
         score = random.randint(1, 7)
         print(score)
@@ -19,12 +21,14 @@ class Dice:
                 if score2 == 6:
                     Score = 0
                     print(score)
-        return Number
-    def Pass():
+        return score
+    def Pass(self):
+        return 0
+    def Exit(self):
         return 0
 
 
-class Player:
+class Player(Dice):
 
     def add_players():
 
@@ -40,10 +44,15 @@ class Player:
             list.sort()
             print(list)
 
-
             for j in range(N):
                 print("It's your turn: "+list[j])
-
+                Opt = raw_input("Roll Exit Pass")
+                if Opt == "Roll":
+                    print(Dice.Roll())
+                elif Opt == "Exit":
+                    Dice.Exit()
+                elif Opt == "Pass":
+                    Dice.Pass()
     add_players()
 
 
