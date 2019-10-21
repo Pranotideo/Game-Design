@@ -2,6 +2,8 @@ import random
 N = int(input("Enter Number of players: "))
 list = []
 
+final_score = []
+count = 0
 class Player:
     def __init__(self, Opt):
         self.Opt = Opt
@@ -22,42 +24,30 @@ class Player:
 
 class Dice:
 
-    def __init__(self, Roll, Exit, Pass, give_option):
-        Player.add_players(self)
-        self.Roll = Roll()
-        self.Exit = Exit()
-        self.Pass = Pass()
-        self.score_list = []
-        self.give_option = give_option()
-
-    def Roll(self):
-
-        score = random.randint(1, 7)
-        print(score)
-        if score == 6:
-            score1 = random.randint(1, 7)
-            score = score1+score
-            print(score1)
-            if score1 == 6:
-                score2 = random.randint(1, 7)
-                score = score2+score
-                print(score)
-                if score2 == 6:
-                    score = 0
-                    print(score)
-        self.score_list.append(score)
-        print(self.score_list)
-        return score
-
-    def Pass(self):
-        return 0
-
-    def Exit(self):
-        return 0
+    def __init__(self):
+        pass
 
     def give_option():
-        for j in range(N):
-            print("It's your turn: "+list[j])
+        score_list = []
+        score = 0
+        def Roll():
+            score = random.randint(1, 7)
+            if score == 6:
+                score1 = random.randint(1, 7)
+                score = score1+score
+                if score1 == 6:
+                    score2 = random.randint(1, 7)
+                    score = score2+score
+                    if score2 == 6:
+                        score = 0
+            score_list.append(score)
+            print(score_list)
+        def Pass():
+            return 0
+        def Exit():
+            return 0
+        for i in range(0, N):
+            print("It's your turn: "+list[i])
             Opt = raw_input("Roll Exit Pass")
             if Opt == "Roll":
                 Roll()
@@ -67,13 +57,13 @@ class Dice:
                 Pass()
             else:
                 print("Enter valid option ")
+        for j in range(0, N):
 
-    give_option()
-
-
-
-
-
+        print(final_score)
+    while final_score > 50 :
+        give_option()
+    else:
+        print("Game over")
 
 
 
