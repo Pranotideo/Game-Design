@@ -1,11 +1,15 @@
 class Player:
 
     def __init__(self):
+        Enter the name of the player
+        self.name = name
+        self.score = []
         self.players_list = []
         self.score_list = []
         self.final_score = []
         self.N = int(input("Enter Number of players: "))
 
+    def add_to_score(self):
     def add_players(self):
 
         if self.N > 7 or self.N < 2:
@@ -53,7 +57,26 @@ class Dice:
 
 class game(Dice, Player):
     mydict = {}
+    def __init__ (self):
+        How many players?
+        self.players = []
+        for (i in range x):
+    
+            self.players[i] = Player() // this will call init of player
+
+        self.dice = Dice()
+
+
+
     def game_play(self):
+        while True:
+            for (i in range len(self.players)):
+                its your turn self.players[i].name
+                what do you want? roll(r) / exit (e) / pass (p):
+
+                    if roll: 
+                        self.dice.roll()
+                    if exit:
         for i in range(x.N):
             print("It's your turn: "+x.players_list[i])
             Opt = raw_input("Roll Exit Pass : ")
@@ -90,6 +113,6 @@ if __name__ == "__main__":
     w = Dice()
     x = Player()
     g = game()
-    x.add_players()                ***To accept and sort list of players ***
-    x.initial_score(x.N)           *** To intialize score list i.e. scores of each round and final score i.e. addition od scores***
-    g.game_winner()                *** To play game and find winner***
+    x.add_players()                #"""To accept and sort list of players"""
+    x.initial_score(x.N)           #""" To intialize score list i.e. scores of each round and final score i.e. addition od scores"""
+    g.game_winner()                #""" To play game and find winner"""
