@@ -11,7 +11,6 @@ class Player:
 
     def add_to_score(self):
     def add_players(self):
-
         if self.N > 7 or self.N < 2:
             print("Enter minimum 2 and maximum 6 players")
         else:
@@ -33,7 +32,7 @@ class Dice:
         self.temp_score = 0
 
 
-    def Roll(self):
+    def roll_dice(self):
         import random
         score = random.randint(1, 7)
         i = 1
@@ -44,7 +43,7 @@ class Dice:
                 print(score)
                 self.temp_score = self.temp_score+score
                 roll_again = raw_input("Roll again: ")
-                return self.Roll()
+                return self.roll_dice()
             else:
                 print(score)
                 return self.temp_score
@@ -53,9 +52,7 @@ class Dice:
             score = score+self.temp_score
         return score
 
-
-
-class game(Dice, Player):
+class Game(Dice, Player):
     mydict = {}
     def __init__ (self):
         How many players?
@@ -81,15 +78,15 @@ class game(Dice, Player):
             print("It's your turn: "+x.players_list[i])
             Opt = raw_input("Roll Exit Pass : ")
             if Opt == "Roll":
-                x.score_list[i] = w.Roll()
-                print(x.score_list[i])
+                x.score_list[i] = w.roll_dice()
+                print("{0} got {1} points".format(x.players_list[i], x.score_list[i]))
                 x.final_score[i] = x.score_list[i] + x.final_score[i]
                 print(x.final_score)
             elif Opt == "Exit":
-                print(x.score_list[i])
+                print(x.final_list[i])
                 break
             elif Opt == "Pass":
-                print(x.score_list[i])
+                print(x.final_list[i])
             else:
                 print("Enter valid option")
 
@@ -112,7 +109,7 @@ class game(Dice, Player):
 if __name__ == "__main__":
     w = Dice()
     x = Player()
-    g = game()
-    x.add_players()                #"""To accept and sort list of players"""
-    x.initial_score(x.N)           #""" To intialize score list i.e. scores of each round and final score i.e. addition od scores"""
-    g.game_winner()                #""" To play game and find winner"""
+    g = Game()
+    x.add_players()                #To accept and sort list of players
+    x.initial_score(x.N)           # To intialize score list i.e. scores of each round and final score i.e. addition od scores
+    g.game_winner()                # To play game and find winner
