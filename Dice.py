@@ -137,7 +137,7 @@ class Game:
             print(self.sorted_score)
             self.game_play()
             self.sorted_score.sort()
-            print("New list"+self.new_list)
+        
 
         else :
             return self.win()
