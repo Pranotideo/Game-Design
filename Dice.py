@@ -1,4 +1,3 @@
-
 class Player:
 
     def __init__(self):
@@ -6,7 +5,7 @@ class Player:
         self.final_score = []
 
     def add_players(self):
-        self.name = raw_input("Enter Name of player")
+        self.name = raw_input("Enter Name of player: ")
 
     def add_to_score(self, val):
         for i in range(val):
@@ -16,6 +15,7 @@ class Player:
 
 
 class Dice:
+
     def __init__(self):
         self.temp_score = 0
         self.score = 0
@@ -30,10 +30,12 @@ class Dice:
                 print(self.score)
                 self.temp_score = self.temp_score+self.score
                 roll_again = raw_input("Roll again: ")
+                while roll_again != "Roll":
+                    roll_again = raw_input("Enter Roll:  ")
+
                 if roll_again == "Roll":
-                    return self.roll_dice()
-                else:
-                    roll_again = raw_input("Enter valid option ")
+                    self.roll_dice()
+
             else:
                 print(self.score)
                 return self.temp_score
@@ -53,14 +55,12 @@ class Game:
         self.new_list = []
         self.total_score = total_score
         self.mydict = {}
-        self.j = 0
         self.game_score = game_score
         self.dice = Dice()
         self.Count = self.N
-        self.y = []
 
     def __del__(self):
-        print("stop")
+        print("Game over")
 
     def game_pre(self, name):
         self.players_list.append(name)
@@ -70,7 +70,6 @@ class Game:
 
     def invalid_opt(self):
         print("Enter valid option")
-
 
     def win(self):
         import sys
@@ -82,7 +81,6 @@ class Game:
             print("%s: %s" %(a, y))
         q = sorted(self.mydict.items(), key=lambda item: item[1])
         print(q)
-
         print("1st winner is: {0}".format(q[-1]))
         print("2st winner is: {0}".format(q[-2]))
         sys.exit()
@@ -93,14 +91,14 @@ class Game:
             self.players_list[i] = " "
             print(self.players_list)
             self.Count -= 1
-            print(self.j)
+
         elif self.Count <= 2 :
             return self.win()
 
     def game_options(self):
         i = 0
         while i < self.N:
-            if self.Count > 2 and self.players_list[i] != "Np":
+            if self.Count > 0 and self.players_list[i] != " ":
                 #print(len(self.players_list))
                 #print(i)
                 print("It's your turn: "+self.players_list[i])
@@ -114,7 +112,6 @@ class Game:
                     self.mydict[self.players_list[i]] = self.total_score[i]
                     i = i+1
                 elif Opt == "Exit":
-                    self.j = i+1
                     self.exit(i)
                     i = i+1
                 elif Opt == "Pass":
@@ -124,15 +121,15 @@ class Game:
                     self.invalid_opt()
                     #print(i)
 
-            elif self.players_list[i] == "Np":
+            elif self.players_list[i] == " ":
+                i = i+1
                 continue
 
-            elif self.Count <= 2 :
+            elif self.Count <= 0 :
                 return self.win()
 
     def game_play(self):
-        while self.sorted_score[-1] < 50 and self.Count > 2:
-
+        while self.sorted_score[-1] < 50 and self.Count > 0:
             self.game_options()
             self.sorted_score = self.total_score[:]
             self.sorted_score.sort()
@@ -146,6 +143,7 @@ if __name__ == "__main__":
     w = Dice()
     x = Player()
     g = Game(x.final_score, x.score)
+
     if (g.N > 7) or (g.N < 2):
         print("Enter minimum 2 and maximum 6 players")
     else:
@@ -154,5 +152,5 @@ if __name__ == "__main__":
             g.game_pre(x.name)
         print(g.players_list)
 
-    x.add_to_score(g.N)
-    g.game_play()
+        x.add_to_score(g.N)
+        g.game_play()
