@@ -25,24 +25,27 @@ class Dice:
         self.score = random.randint(1, 6)
         i = 1
         while self.score == 6:
-            i =+ 1
+
             if i<3:
-                print(self.score)
+                print("Score : {0}".format(self.score))
                 self.temp_score = self.temp_score+self.score
+                #print("Temp Score: {0}".format(self.temp_score))
                 roll_again = raw_input("Roll again: ")
                 while roll_again != "Roll":
                     roll_again = raw_input("Enter Roll:  ")
 
                 if roll_again == "Roll":
+                    i =+ 1
                     self.roll_dice()
 
-            else:
-                print(self.score)
+            elif i >= 3:
+                #print("else part:{0}".format(self.score))
                 return self.temp_score
+                break
         else:
             print(self.score)
-            self.score = self.score+self.temp_score
-        return self.score
+            return self.score+self.temp_score
+
 
 
 class Game:
