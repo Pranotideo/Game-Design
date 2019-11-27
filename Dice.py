@@ -5,9 +5,6 @@ class Player:
     def __init__(self):
         self.score = []
         self.final_score = []
-
-# add_players will add name of player in players_list of Game object
-    def add_players(self):
         self.name = raw_input("Enter Name of player: ")
 
 # add_to_score will make length of score list and final_score list equals to Number of players in game
@@ -56,13 +53,18 @@ class Game:
 
         self.N = args.Number
         self.dice = Dice()
-        self.player = Player()
-        self.total_score = self.player.final_score
-        self.game_score = self.player.score
-        import sys
-        self.Count = self.N
         self.players_list = []
         self.new_list = []
+
+
+        for i in range(self.N):
+            self.player = Player()
+            self.players_list.append(self.player.name)
+            self.new_list.append(self.player.name)
+
+        self.total_score = self.player.final_score
+        self.game_score = self.player.score
+        self.Count = self.N
 
 
     def __del__(self):
@@ -70,10 +72,10 @@ class Game:
 
 # game_pre will add name of player in players_list and new_list.
     def game_pre(self, name):
-        self.players_list.append(name)
+
         self.players_list.sort()
-        self.new_list.append(name)
         self.new_list.sort()
+
 
 # invalid_opt will called when player will enter invalid option.
     def invalid_opt(self):
@@ -81,6 +83,7 @@ class Game:
 
 # win will make list of total_score and new_list. And will print name and score of winner
     def win(self):
+        import sys
         win_list= []
         for i in range(self.N):
             win_list.append([(self.total_score[i], self.new_list[i])])
@@ -106,15 +109,12 @@ class Game:
 # if players are in between 2-6 then function will call add_players function to ask name of player and game_pre function to add name of player in to players_list and new_list.
     def start_game(self):
         if (self.N > 6) or (self.N < 2):
-            print("Enter minimum 2 and maximum 6 players")
-            sys.exit()
+            print("Enter players in range 2-6")
         else:
-            for i in range(self.N):
-                self.player.add_players()
-                self.game_pre(self.player.name)
+            self.game_pre(self.player.name)
             print(self.players_list)
             self.player.add_to_score(self.N)
-            self.game_options()
+
 
 # game_options will give 3 options to each player and will also check entered option is valid or not.
     def game_options(self):
