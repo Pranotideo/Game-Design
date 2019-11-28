@@ -2,10 +2,12 @@ import argparse
 
 class Player:
 # Player object have 2 attributes score of each round and final_score is cumulative.
-    def __init__(self):
-        self.score = []
-        self.final_score = []
-        self.name = raw_input("Enter Name of player: ")
+    def __init__(self, score=None, final_score=None, name=None):
+        self.score = score or []
+        self.final_score = final_score or []
+        self.name = name or raw_input("Enter Name of player: ") or []
+
+    #def enter_name(self):
 
 # add_to_score will make length of score list and final_score list equals to Number of players in game
     def add_to_score(self, val):
@@ -43,7 +45,8 @@ class Dice:
                 return self.temp_score
                 break
         else:
-            print(self.score)
+            print("Score : {0}".format(self.score))
+            print("Total Score : {0}".format(self.score+self.temp_score))
             return self.score+self.temp_score
 
 
@@ -58,12 +61,9 @@ class Game:
 
 
         for i in range(self.N):
-            self.player = Player()
-            self.players_list.append(self.player.name)
-            self.new_list.append(self.player.name)
+            P = Player()
+            self.players_list.append(P)
 
-        self.total_score = self.player.final_score
-        self.game_score = self.player.score
         self.Count = self.N
 
 
@@ -71,10 +71,18 @@ class Game:
         print("Game over")
 
 # game_pre will add name of player in players_list and new_list.
-    def game_pre(self, name):
+    def game_pre(self):
 
-        self.players_list.sort()
-        self.new_list.sort()
+        self.players_list.name.sort()
+        #self.new_list.sort()
+
+    def name_sorting(self):
+
+        for i in range(0, self.N):
+            for j in range(self.N-1):
+                if self.players_list[j].name > self.players_list[j+1].name:
+                    self.players_list[j+1].name, self.players_list[j].name = self.players_list[j].name, self.players_list[j+1].name
+            self.new_list.append(self.players_list[i].name)
 
 
 # invalid_opt will called when player will enter invalid option.
@@ -86,7 +94,7 @@ class Game:
         import sys
         win_list= []
         for i in range(self.N):
-            win_list.append([(self.total_score[i], self.new_list[i])])
+            win_list.append([(self.players_list[0].final_score[i], self.new_list[i])])
         win_list.sort()
         print(win_list)
         print("1st winner is: {0}".format(win_list[-1]))
@@ -96,48 +104,51 @@ class Game:
 # exit function will execute when player will choose Exit option.
     def exit(self, i):
         if self.Count >= 1:
-            self.players_list[i] = " "
-            print(self.players_list)
+            self.players_list[i].name = " "
+            print(self.players_list[i].name)
             self.Count -= 1
 
         elif self.Count < 1 :
-            self.players_list[i] = " "
-            print(self.players_list)
+            self.players_list[i].name = " "
+            print(self.players_list[i].name)
             return self.win()
 
 # start_game will check number of players.
 # if players are in between 2-6 then function will call add_players function to ask name of player and game_pre function to add name of player in to players_list and new_list.
     def start_game(self):
+
         if (self.N > 6) or (self.N < 2):
             print("Enter players in range 2-6")
         else:
-            self.game_pre(self.player.name)
-            print(self.players_list)
-            self.player.add_to_score(self.N)
+            for i in range(self.N):
+                self.players_list[i].add_to_score(self.N)
+            self.name_sorting()
+            #self.game_pre()
 
 
 # game_options will give 3 options to each player and will also check entered option is valid or not.
     def game_options(self):
         i = 0
+
         while i < self.N:
-            if self.Count >= 1 and self.players_list[i] != " ":
-                print("It's your turn: "+self.players_list[i])
+            if self.Count >= 1 and self.players_list[i].name != " ":
+                print("It's your turn:{0} ".format(self.players_list[i].name))
                 Opt = raw_input("Roll Exit Pass : ")
                 if Opt == "Roll":
-                    self.dice.temp_score = 0
-                    self.game_score[i] = self.dice.roll_dice()
-                    print("{0} got {1} points".format(self.players_list[i], self.game_score[i]))
-                    self.total_score[i] = self.game_score[i] + self.total_score[i]
+
+                    self.players_list[0].score[i] = self.dice.roll_dice()
+                    #print("{0} got {1} points".format(self.players_lists[i].name, self.players_list[i].score))
+                    self.players_list[0].final_score[i] = self.players_list[0].score[i] + self.players_list[0].final_score[i]
                     i = i+1
                 elif Opt == "Exit":
                     self.exit(i)
                     i = i+1
                 elif Opt == "Pass":
-                    print(self.total_score[i])
+                    print(self.players_list[0].final_score[i])
                     i = i+1
                 else:
                     self.invalid_opt()
-            elif self.players_list[i] == " ":
+            elif self.players_list[i].name == " ":
                 i = i+1
                 continue
 
@@ -149,11 +160,12 @@ class Game:
 
     def game_play(self):
         sorted_score = [0]
-        while sorted_score[-1] < 50 and self.Count > 1:
+        while self.Count > 1 and  sorted_score[-1] < 50:
             self.game_options()
-            sorted_score = self.total_score[:]
+            #for i in range(self.N):
+            sorted_score = self.players_list[0].final_score[:]
             sorted_score.sort()
-            print("Total Score : {0}".format(self.total_score))
+            print("Total Score : {0}".format(self.players_list[0].final_score))
             print(sorted_score)
 
         else :
