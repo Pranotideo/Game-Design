@@ -1,20 +1,20 @@
-import argparse
-
 class Player:
 # Player object have 2 attributes score of each round and final_score is cumulative.
     def __init__(self, score=None, final_score=None, name=None):
-        self.score = score or []
-        self.final_score = final_score or []
-        self.name = name or raw_input("Enter Name of player: ") or []
+        self.score = score or int()
+        self.final_score = final_score or int()
+        self.name = name or raw_input("Enter Name of player: ")
 
     #def enter_name(self):
 
 # add_to_score will make length of score list and final_score list equals to Number of players in game
-    def add_to_score(self, val):
-        for i in range(val):
-            self.score.append(0)
-            self.final_score.append(0)
-        return self.score, self.final_score
+    #def add_to_score(self, val):
+    #    for i in range(val):
+    #        self.score.append(0)
+
+
+    #        self.final_score.append(0)
+    #    return self.score, self.final_score
 
 
 class Dice:
@@ -31,7 +31,7 @@ class Dice:
         while self.score == 6:
 
             if i<3:
-                print("Score : {0}".format(self.score))
+                #print("Score : {0}".format(self.score))
                 self.temp_score = self.temp_score+self.score
                 roll_again = raw_input("Roll again: ")
                 while roll_again != "Roll":
@@ -43,17 +43,20 @@ class Dice:
 
             elif i >= 3:
                 return self.temp_score
-                break
+
         else:
             print("Score : {0}".format(self.score))
-            print("Total Score : {0}".format(self.score+self.temp_score))
-            return self.score+self.temp_score
+            #print("Total Score : {0}".format(self.score+self.temp_score))
+            return self.score
 
 
 
 class Game:
     def __init__ (self):
-
+        import argparse
+        p = argparse.ArgumentParser()                                    # command line argument using argparse.
+        p.add_argument("Number", help="Enter Number", type=int)
+        args = p.parse_args()
         self.N = args.Number
         self.dice = Dice()
         self.players_list = []
@@ -79,10 +82,24 @@ class Game:
     def name_sorting(self):
 
         for i in range(0, self.N):
-            for j in range(self.N-1):
-                if self.players_list[j].name > self.players_list[j+1].name:
-                    self.players_list[j+1].name, self.players_list[j].name = self.players_list[j].name, self.players_list[j+1].name
+            for j in range(i+1, self.N):
+                if  self.players_list[i].name < self.players_list[j].name:
+                    pass
+
+
+                elif self.players_list[i].name > self.players_list[j].name:
+                    self.players_list[j], self.players_list[i] = self.players_list[i], self.players_list[j]
+                    #a = self.players_list[j]
+                    #self.players_list[j] = self.players_list[i]
+                    #self.players_list[i] = a
+                    #print(self.players_list[i].name)
+                    #print(self.players_list[j].name)
+                    #return self.players_list[i]
+                    #print(self.players_list[j+1].name)
+
+
             self.new_list.append(self.players_list[i].name)
+            print(self.players_list[i].name)
 
 
 # invalid_opt will called when player will enter invalid option.
@@ -94,7 +111,7 @@ class Game:
         import sys
         win_list= []
         for i in range(self.N):
-            win_list.append([(self.players_list[0].final_score[i], self.new_list[i])])
+            win_list.append([(self.players_list[i].final_score, self.new_list[i])])
         win_list.sort()
         print(win_list)
         print("1st winner is: {0}".format(win_list[-1]))
@@ -120,8 +137,8 @@ class Game:
         if (self.N > 6) or (self.N < 2):
             print("Enter players in range 2-6")
         else:
-            for i in range(self.N):
-                self.players_list[i].add_to_score(self.N)
+            #for i in range(self.N):
+            #    self.players_list[i].add_to_score(self.N)
             self.name_sorting()
             #self.game_pre()
 
@@ -135,16 +152,16 @@ class Game:
                 print("It's your turn:{0} ".format(self.players_list[i].name))
                 Opt = raw_input("Roll Exit Pass : ")
                 if Opt == "Roll":
-
-                    self.players_list[0].score[i] = self.dice.roll_dice()
-                    #print("{0} got {1} points".format(self.players_lists[i].name, self.players_list[i].score))
-                    self.players_list[0].final_score[i] = self.players_list[0].score[i] + self.players_list[0].final_score[i]
+                    self.dice.temp_score = 0
+                    self.players_list[i].score = self.dice.roll_dice()
+                    # print("{0} got {1} points".format(self.players_lists[i].name, self.players_list[i].score))
+                    self.players_list[i].final_score = self.players_list[i].score + self.players_list[i].final_score
                     i = i+1
                 elif Opt == "Exit":
                     self.exit(i)
                     i = i+1
                 elif Opt == "Pass":
-                    print(self.players_list[0].final_score[i])
+                    print(self.players_list[i].final_score)
                     i = i+1
                 else:
                     self.invalid_opt()
@@ -161,21 +178,19 @@ class Game:
     def game_play(self):
         sorted_score = [0]
         while self.Count > 1 and  sorted_score[-1] < 50:
+            sorted_score = []
             self.game_options()
-            #for i in range(self.N):
-            sorted_score = self.players_list[0].final_score[:]
+            for i in range(self.N):
+
+                sorted_score.append(self.players_list[i].final_score)
+                #print("Total Score : {0}".format(self.players_list[i].final_score))
             sorted_score.sort()
-            print("Total Score : {0}".format(self.players_list[0].final_score))
             print(sorted_score)
 
         else :
             self.win()
 
 if __name__ == "__main__":
-    p = argparse.ArgumentParser()                                    # command line argument using argparse.
-    p.add_argument("Number", help="Enter Number", type=int)
-    args = p.parse_args()
-
     g = Game()                                                       # instantiate Game class
     g.start_game()                                                   # start game
     g.game_play()                                                    # play game
