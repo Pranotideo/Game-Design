@@ -1,21 +1,10 @@
 class Player:
-# Player object have 2 attributes score of each round and final_score is cumulative.
+# Player object have 4 attributes score of each round and final_score is cumulative.
     def __init__(self, score=None, final_score=None, name=None):
         self.score = score or int()
         self.final_score = final_score or int()
         self.name = name or raw_input("Enter Name of player: ")
-
-    #def enter_name(self):
-
-# add_to_score will make length of score list and final_score list equals to Number of players in game
-    #def add_to_score(self, val):
-    #    for i in range(val):
-    #        self.score.append(0)
-
-
-    #        self.final_score.append(0)
-    #    return self.score, self.final_score
-
+        self.round = round or []
 
 class Dice:
 # Dice object have 2 attributes. score is output when player will Roll. temp_score is cumulative score value when score == 6
@@ -61,8 +50,7 @@ class Game:
         self.dice = Dice()
         self.players_list = []
         self.new_list = []
-
-
+        self.x = 1
         for i in range(self.N):
             P = Player()
             self.players_list.append(P)
@@ -72,12 +60,6 @@ class Game:
 
     def __del__(self):
         print("Game over")
-
-# game_pre will add name of player in players_list and new_list.
-    def game_pre(self):
-
-        self.players_list.name.sort()
-        #self.new_list.sort()
 
     def name_sorting(self):
 
@@ -89,14 +71,6 @@ class Game:
 
                 elif self.players_list[i].name > self.players_list[j].name:
                     self.players_list[j], self.players_list[i] = self.players_list[i], self.players_list[j]
-                    #a = self.players_list[j]
-                    #self.players_list[j] = self.players_list[i]
-                    #self.players_list[i] = a
-                    #print(self.players_list[i].name)
-                    #print(self.players_list[j].name)
-                    #return self.players_list[i]
-                    #print(self.players_list[j+1].name)
-
 
             self.new_list.append(self.players_list[i].name)
             print(self.players_list[i].name)
@@ -114,20 +88,28 @@ class Game:
             win_list.append([(self.players_list[i].final_score, self.new_list[i])])
         win_list.sort()
         print(win_list)
+        for i in range(self.N):
+            if self.players_list[i].name == " ":
+                print("{0} Exit game at round {1}".format(self.new_list[i], self.players_list[i].round))
+            else:
+                continue
         print("1st winner is: {0}".format(win_list[-1]))
         print("2nd winner is: {0}".format(win_list[-2]))
         sys.exit()
 
 # exit function will execute when player will choose Exit option.
     def exit(self, i):
+
         if self.Count >= 1:
             self.players_list[i].name = " "
             print(self.players_list[i].name)
+            self.players_list[i].round = self.x
             self.Count -= 1
 
         elif self.Count < 1 :
             self.players_list[i].name = " "
             print(self.players_list[i].name)
+            self.players_list[i].round = self.x
             return self.win()
 
 # start_game will check number of players.
@@ -154,11 +136,13 @@ class Game:
                 if Opt == "Roll":
                     self.dice.temp_score = 0
                     self.players_list[i].score = self.dice.roll_dice()
+
                     # print("{0} got {1} points".format(self.players_lists[i].name, self.players_list[i].score))
                     self.players_list[i].final_score = self.players_list[i].score + self.players_list[i].final_score
                     i = i+1
                 elif Opt == "Exit":
                     self.exit(i)
+
                     i = i+1
                 elif Opt == "Pass":
                     print(self.players_list[i].final_score)
@@ -177,12 +161,15 @@ class Game:
 
     def game_play(self):
         sorted_score = [0]
+
         while self.Count > 1 and  sorted_score[-1] < 50:
             sorted_score = []
             self.game_options()
-            for i in range(self.N):
+            self.x = self.x + 1
 
+            for i in range(self.N):
                 sorted_score.append(self.players_list[i].final_score)
+
                 #print("Total Score : {0}".format(self.players_list[i].final_score))
             sorted_score.sort()
             print(sorted_score)
